@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const app = require("express")();
 const functions = require("firebase-functions");
 

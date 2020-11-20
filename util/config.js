@@ -1,5 +1,5 @@
 module.exports = {
-  apiKey: "AIzaSyA7T_-X1S8rQ-lchYmcljFdnQGuEXh2Zow",
+  apiKey: process.env.GCP_API_KEY,
   authDomain: "todos-app-aecb8.firebaseapp.com",
   databaseURL: "https://todos-app-aecb8.firebaseio.com",
   projectId: "todos-app-aecb8",
