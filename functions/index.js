@@ -4,8 +4,8 @@ const functions = require("firebase-functions");
 const {
   editTodo,
   deleteTodo,
-  getAllTodos,
   postOneTodo,
+  getAllTodos,
 } = require("./APIs/todos");
 
 const { loginUser, signUpUser } = require("./APIs/users");
