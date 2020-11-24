@@ -1,11 +1,14 @@
-const { admin, db } = require("../util/admin");
-const config = require("../util/config");
+const { admin, db } = require("../functions/util/admin");
+const config = require("../functions/util/config");
 
 const firebase = require("firebase");
 
 firebase.initializeApp(config);
 
-const { validateLoginData, validateSignUpData } = require("../util/validators");
+const {
+  validateLoginData,
+  validateSignUpData,
+} = require("../functions/util/validators");
 
 // Login function
 let loginUser = (request, response) => {

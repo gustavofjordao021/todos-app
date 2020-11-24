@@ -1,8 +1,11 @@
 /* eslint-disable promise/always-return */
-const { db } = require("../util/admin");
+const { db } = require("../functions/util/admin");
+const express = require("express");
+
+const router = express.Router();
 
 // GET All todos
-let getAllTodos = (request, response) => {
+router.get("/todos", (request, response) => {
   db.collection("todos")
     .orderBy("createdAt", "desc")
     .get()
@@ -22,7 +25,7 @@ let getAllTodos = (request, response) => {
       console.error(err);
       return response.status(500).json({ error: err.code });
     });
-};
+});
 
 // POST New todo
 let postOneTodo = (request, response) => {
