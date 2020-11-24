@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 const { db } = require("../util/admin");
 const express = require("express");
 
@@ -74,7 +75,7 @@ router.delete("/todos/delete/:todoId", (req, res) => {
 //POST Updating a specific todo
 router.post("/todos/update/:todoId", (req, res) => {
   if (req.body.todoId || req.body.createdAt) {
-    res.status(403).json({ message: "Operation not authorized." });
+    res.status(403).json({ message: "Operation not authorized" });
   }
   let document = db.collection("todos").doc(`${req.params.todoId}`);
   document
