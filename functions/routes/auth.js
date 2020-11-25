@@ -177,4 +177,20 @@ router.get("/profile", routeGuard, (req, res) => {
     });
 });
 
+//POST Update user details
+router.post("/profile/update", routeGuard, (req, res) => {
+  let document = db.collection("users").doc(`${req.user.username}`);
+  document
+    .update(req.body)
+    .then(() => {
+      res.status(200).json({ message: "Profile updated successfully." });
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.status(500).json({
+        message: "Cannot update the profile.",
+      });
+    });
+});
+
 module.exports = router;
