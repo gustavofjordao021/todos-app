@@ -161,7 +161,7 @@ router.get("/signup/image", routeGuard, (req, res) => {
 });
 
 //GET Get all user details
-router.get("/profile", routeGuard, (req, res) => {
+router.get("/profile", (req, res) => {
   let userData = {};
   db.doc(`/users/${req.user.username}`)
     .get()

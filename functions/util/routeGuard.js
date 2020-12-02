@@ -27,11 +27,13 @@ module.exports = (req, res, next) => {
           return next();
         })
         .catch((err) => {
+          console.log("This?");
           console.error("Error while verifying token", err);
           return res.status(403).json(err);
         });
     })
     .catch((err) => {
+      console.log("That?");
       console.error("Error while verifying token", err);
       return res.status(403).json(err);
     });
