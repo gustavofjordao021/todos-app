@@ -20,20 +20,14 @@ module.exports = (req, res, next) => {
         .collection("users")
         .where("userId", "==", req.user.uid)
         .limit(1)
-        .get()
-        .then((data) => {
-          req.user.username = data.docs[0].data().username;
-          req.user.imageUrl = data.docs[0].data().imageUrl;
-          return next();
-        })
-        .catch((err) => {
-          console.log("This?");
-          console.error("Error while verifying token", err);
-          return res.status(403).json(err);
-        });
+        .get();
+    })
+    .then((data) => {
+      req.user.username = data.docs[0].data().username;
+      req.user.imageUrl = data.docs[0].data().imageUrl;
+      return next();
     })
     .catch((err) => {
-      console.log("That?");
       console.error("Error while verifying token", err);
       return res.status(403).json(err);
     });

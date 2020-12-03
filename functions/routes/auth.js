@@ -64,7 +64,8 @@ router.post("/signup", (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         return res.status(400).json({
-          username: "This email is already in use. Please provide another one.",
+          username:
+            "This username is already in use. Please provide another one.",
         });
       } else {
         return firebase
@@ -100,7 +101,7 @@ router.post("/signup", (req, res) => {
       } else {
         return res
           .status(500)
-          .json({ general: "Something went wrong, please try again" });
+          .json({ data: "Something went wrong, please try again" });
       }
     });
 });
@@ -161,7 +162,7 @@ router.get("/signup/image", routeGuard, (req, res) => {
 });
 
 //GET Get all user details
-router.get("/profile", (req, res) => {
+router.get("/profile", routeGuard, (req, res) => {
   let userData = {};
   db.doc(`/users/${req.user.username}`)
     .get()
