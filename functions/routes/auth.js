@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -106,7 +107,7 @@ router.post("/signup", (req, res) => {
 });
 
 //GET Upload profile picture
-router.get("/signup/image", routeGuard, (req, res) => {
+router.post("/signup/image", routeGuard, (req, res) => {
   const busboy = new BusBoy({ headers: req.headers });
   let imageFileName;
   let imageToBeUploaded = {};
