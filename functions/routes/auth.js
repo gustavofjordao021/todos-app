@@ -44,11 +44,7 @@ router.post("/login", (req, res) => {
 //POST User signup
 router.post("/signup", (req, res) => {
   const newUser = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
     email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    country: req.body.country,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     username: req.body.username,
@@ -80,11 +76,7 @@ router.post("/signup", (req, res) => {
     .then((idtoken) => {
       token = idtoken;
       const userCredentials = {
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
         username: newUser.username,
-        phoneNumber: newUser.phoneNumber,
-        country: newUser.country,
         email: newUser.email,
         createdAt: new Date().toISOString(),
         userId,
