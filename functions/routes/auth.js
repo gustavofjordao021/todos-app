@@ -11,6 +11,8 @@ const { admin, db } = require("../util/admin");
 const router = express.Router();
 firebase.initializeApp(config);
 
+const auth = firebase.auth()
+
 const { validateLoginData, validateSignUpData } = require("../util/validators");
 
 //POST User login
@@ -23,8 +25,7 @@ router.post("/login", (req, res) => {
   const { valid, errors } = validateLoginData(user);
   if (!valid) return res.status(400).json(errors);
 
-  firebase
-    .auth()
+  auth
     .signInWithEmailAndPassword(user.email, user.password)
     .then((data) => {
       return data.user.getIdToken();
@@ -32,7 +33,7 @@ router.post("/login", (req, res) => {
     .then((token) => {
       return res.json({ token });
     })
-    .catch((error) => {
+    .catch((error) => {      
       console.error(error);
       return res
         .status(403)
@@ -46,7 +47,6 @@ router.post("/signup", (req, res) => {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    username: req.body.username,
   };
 
   const { valid, errors } = validateSignUpData(newUser);
@@ -63,8 +63,7 @@ router.post("/signup", (req, res) => {
             "This username is already in use. Please provide another one.",
         });
       } else {
-        return firebase
-          .auth()
+        return auth
           .createUserWithEmailAndPassword(newUser.email, newUser.password);
       }
     })
@@ -75,12 +74,11 @@ router.post("/signup", (req, res) => {
     .then((idtoken) => {
       token = idtoken;
       const userCredentials = {
-        username: newUser.username,
         email: newUser.email,
         createdAt: new Date().toISOString(),
         userId,
       };
-      return db.doc(`/users/${newUser.username}`).set(userCredentials);
+      return db.doc(`/users/${newUser.email}`).set(userCredentials);
     })
     .then(() => {
       return res.status(201).json({ token });
