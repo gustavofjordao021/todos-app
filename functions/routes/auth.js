@@ -8,12 +8,14 @@ const firebase = require("firebase");
 const routeGuard = require("../util/routeGuard");
 const { admin, db } = require("../util/admin");
 
-const router = express.Router();
-firebase.initializeApp(config);
-
-const auth = firebase.auth()
-
 const { validateLoginData, validateSignUpData } = require("../util/validators");
+
+//Initializing Express router
+const router = express.Router();
+
+//Initializing Firebase Authentication and setting up credentials
+firebase.initializeApp(config);
+const auth = firebase.auth()
 
 //POST User login
 router.post("/login", (req, res) => {
@@ -35,9 +37,15 @@ router.post("/login", (req, res) => {
     })
     .catch((error) => {      
       console.error(error);
-      return res
-        .status(403)
-        .json({ general: "Wrong credentials, please try again." });
+      if (error.code === "auth/user-not-found") {
+        return res.status(400).json({ message: "There is no user record corresponding to this email. Please verify your credentials or signup." });
+      } else if (error.code === "auth/wrong-password") {
+        return res.status(400).json({ message: "The password is invalid for that email. Please try again!" });        
+      } else {
+        return res
+          .status(500)
+          .json({ message: "Something went wrong, please try again." });
+      }
     });
 });
 
@@ -59,7 +67,7 @@ router.post("/signup", (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         return res.status(400).json({
-          username:
+          message:
             "This username is already in use. Please provide another one.",
         });
       } else {
@@ -83,14 +91,14 @@ router.post("/signup", (req, res) => {
     .then(() => {
       return res.status(201).json({ token });
     })
-    .catch((err) => {
-      console.error(err);
-      if (err.code === "auth/email-already-in-use") {
-        return res.status(400).json({ email: "Email already in use" });
+    .catch((error) => {
+      console.error(error);
+      if (error.code === "auth/email-already-in-use") {
+        return res.status(400).json({ message: "Email already in use" });
       } else {
         return res
           .status(500)
-          .json({ data: "Something went wrong, please try again" });
+          .json({ message: "Something went wrong, please try again" });
       }
     });
 });
