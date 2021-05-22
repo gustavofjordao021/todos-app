@@ -27,7 +27,7 @@ router.post("/login", (req, res) => {
   const { valid, errors } = validateLoginData(user);
   if (!valid) return res.status(400).json({
     message:
-      "Please make sure that all credentials are correct.",
+      "Please confirm that all credentials are correct before trying to log in.",
   });
 
   auth
@@ -49,7 +49,7 @@ router.post("/login", (req, res) => {
           .status(500)
           .json({
             message:
-              "Please make sure that all credentials are correct.",
+              "Please confirm that all credentials are correct before trying to log in.",
           });
       }
     });
@@ -67,7 +67,7 @@ router.post("/signup", (req, res) => {
 
   if (!valid) return res.status(400).json({
     message:
-      "Please make sure that all credentials are correct.",
+      "Please confirm that all credentials are correct before trying to sign up.",
   });
 
   let token, userId;
