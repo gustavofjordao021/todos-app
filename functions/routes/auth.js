@@ -25,7 +25,10 @@ router.post("/login", (req, res) => {
   };
 
   const { valid, errors } = validateLoginData(user);
-  if (!valid) return res.status(400).json(errors);
+  if (!valid) return res.status(400).json({
+    message:
+      "Please make sure that all credentials are correct.",
+  });
 
   auth
     .signInWithEmailAndPassword(user.email, user.password)
@@ -44,7 +47,10 @@ router.post("/login", (req, res) => {
       } else {
         return res
           .status(500)
-          .json({ message: "Something went wrong, please try again." });
+          .json({
+            message:
+              "Please make sure that all credentials are correct.",
+          });
       }
     });
 });
@@ -59,7 +65,10 @@ router.post("/signup", (req, res) => {
 
   const { valid, errors } = validateSignUpData(newUser);
 
-  if (!valid) return response.status(400).json(errors);
+  if (!valid) return res.status(400).json({
+    message:
+      "Please make sure that all credentials are correct.",
+  });
 
   let token, userId;
   db.doc(`/users/${newUser.username}`)
